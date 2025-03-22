@@ -3,10 +3,10 @@ name: Run Tests and Lint Code
 on:
   push:
     branches:
-      - main  # Uruchamianie testów przy każdym pushu do gałęzi main
+      - master  # Uruchamianie testów przy każdym pushu do gałęzi master
   pull_request:
     branches:
-      - main  # Testy także przy pull requestach na gałąź main
+      - master  # Testy także przy pull requestach na gałąź master
 
 jobs:
   test_and_lint:
