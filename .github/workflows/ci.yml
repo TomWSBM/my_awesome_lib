@@ -1,0 +1,35 @@
+name: Run Tests and Lint Code
+
+on:
+  push:
+    branches:
+      - main  # Uruchamianie testów przy każdym pushu do gałęzi main
+  pull_request:
+    branches:
+      - main  # Testy także przy pull requestach na gałąź main
+
+jobs:
+  test_and_lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install flake8
+      run: |
+        pip install flake8  # Instalacja flake8 do analizy statycznej kodu
+
+    - name: Run flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics  # Wykrywanie poważnych błędów
+        flake8 . --count --exit-zero --max-line-length=79 --statistics      # Analiza z większą tolerancją błędów
+
+    - name: Run Unittest
+      run: |
+        python -m unittest discover -s tests -p "*.py"  # Uruchamianie testów w folderze "tests"
